@@ -17,8 +17,3 @@ jobs:
 
       - name: Build and verify with Maven
         run: mvn clean package
-
-      - name: Report to Coveralls
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        run: mvn coveralls:report
