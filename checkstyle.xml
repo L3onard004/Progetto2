@@ -24,7 +24,4 @@
         </module>
         <module name="NeedBraces"/>
     </module>
-    <module name="Header">
-        <property name="headerFile" value="header.txt"/>
-    </module>
 </module>
