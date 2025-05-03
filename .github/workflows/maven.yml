@@ -16,10 +16,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build and verify with Maven (Debug)
-        run: mvn clean package
+      - name: Build and verify with Maven
+        run: mvn clean verify
 
       - name: Upload coverage to Coveralls
-        run: mvn coveralls:report
+        run: mvn com.github.trautonen:coveralls-maven-plugin:4.3.0:report
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }} 
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
