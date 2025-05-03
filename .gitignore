@@ -1,1 +1,7 @@
-target/
+/target/
+*.log
+*.class
+*.jar
+.idea/
+*.iml
+.DS_Store

@@ -1,25 +1,40 @@
 name: Java CI with Maven
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+    - name: Set up JDK 8
+      uses: actions/setup-java@v4
+      with:
+        java-version: '8'
+        distribution: 'temurin'
 
-      - name: Build and verify with Maven
-        run: mvn clean verify
+    - name: Build with Maven
+      run: mvn clean package
 
-      - name: Upload coverage to Coveralls
-        run: mvn com.github.trautonen:coveralls-maven-plugin:4.3.0:report
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+    - name: Run Checkstyle
+      run: mvn checkstyle:check
+
+    - name: Run Tests and Generate JaCoCo Report
+      run: mvn test jacoco:report
+
+    - name: Upload JaCoCo Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: jacoco-report
+        path: target/site/jacoco
+    - name: Report to Coveralls
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+      run: mvn coveralls:report
